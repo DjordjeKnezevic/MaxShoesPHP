@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>25% off on selected styles!</title>
+        <link>https://distortive-hello.000webhostapp.com/</link>
+        <description>Nike collection on sale now!</description>
+            <item>
+                <title>Highlight of brand new shoes</title>
+                <link>https://distortive-hello.000webhostapp.com/index.php</link>
+                <description>Asics Lite show, Asics Metaspeed sky and Nike pegasus Turbo next nature are out now!</description>
+            </item>
+            <item>
+                <title>New brand out now</title>
+                <link>https://distortive-hello.000webhostapp.com/products.php</link>
+                <description>Check out brand new partner INOV8, out now!</description>
+            </item>
+    </channel>
+</rss>

@@ -1,0 +1,893 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Arimo', sans-serif;
+    box-sizing: border-box;
+}
+
+#main-page {
+    width: 100%;
+    margin-top: 100px;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * NAVBAR * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.dark-blue-bg {
+    background-color: #222E50;
+}
+.pink-bg {
+    background-color: #FFC0CB;
+}
+.lgreen-bg {
+    background-color: #BCD8C1;
+}
+.navbar-meni {
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    z-index: 40;
+}
+
+.is-fixed {
+    position: fixed;
+    transform: translate3d(0, -100%, 0);
+    transition: transform 0.3s ease, visibility 0s 0.3s linear;
+}
+
+.scroll-up {
+    transform: translate3d(0, 0, 0);
+}
+
+.navbar-meni .navbar-nav {
+    font-size: 1.7em;
+}
+
+.navbar-meni .navbar-brand {
+    display: flex;
+    align-items: center;
+    margin-left: 0.5em;
+    font-style: italic;
+}
+
+.navbar-meni .navbar-brand h1 {
+    display: inline-block;
+    margin-right: 0.35em;
+}
+
+.lgreen {
+    color: #BCD8C1;
+    font-size: 1.5em;
+}
+.lgreen-lg {
+    color: #BCD8C1;
+    font-size: 1.8em;
+}
+.navbar-meni .navbar-brand img {
+    width: 50px;
+    border-radius: 40% 10%;
+}
+
+.navbar-meni .navbar-brand img:hover {
+    box-shadow: 0px 0px 30px #BCD8C1;
+    transition: 0.2s;
+}
+
+.navbar-meni .navbar-brand h1:hover {
+    text-shadow: 0px 0px 40px #BCD8C1;
+    transition: 0.2s;
+}
+
+.navbar-meni .nav-item {
+    margin: 0px 0.5em;
+}
+
+.navbar-meni .nav-item:hover,
+.navbar-meni .navbar-toggler:hover {
+    text-shadow: 0px 0px 25px #BCD8C1, 0px 0px 25px #BCD8C1;
+    transition: 0.2s;
+}
+
+.icons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.icons a svg {
+    margin-right: 25px;
+}
+
+.icons a svg:hover {
+    color: #BCD8C1 !important;
+    transition: 0.2s;
+}
+
+.navbar-toggler {
+    background-color: #BCD8C1;
+    margin-right: 2em;
+}
+
+.navbar-meni .navbar-collapse {
+    display: inline-block;
+}
+
+.navbar-meni .offcanvas {
+    background-color: #222E50;
+    width: 30% !important;
+    height: 300px;
+    border-radius: 0px 0px 10% 0px;
+}
+
+#glavna-korpa {
+    position: relative;
+}
+
+#brojac {
+    width: 25px;
+    height: 25px;
+    background-color: #BCD8C1;
+    border-radius: 50%;
+    position: absolute !important;
+    top: -15%;
+    right: 30%;
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#my-profile ul li a:hover {
+    background-color: #222E50;
+    color: white;
+}
+
+#profile-ddtoggle {
+    margin-top: 6px;
+    font-size: 1.2vw;
+}
+#profile-ddtoggle:hover {
+    color: #BCD8C1;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * WELCOME SLIKE * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#welcome-screen {
+    height: 90.5vh;
+}
+
+#welcome-screen img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    min-height: 30%;
+    max-height: 90.5vh;
+}
+
+#welcome-screen img:nth-of-type(1) {
+    animation-name: fader;
+    animation-delay: 5s;
+    animation-duration: 1s;
+    z-index: 10;
+}
+
+#welcome-screen img:nth-of-type(2) {
+    z-index: 5;
+}
+
+#welcome-screen img:nth-of-type(n + 3) {
+    display: none;
+}
+
+@keyframes fader {
+    from {
+        opacity: 1.0;
+    }
+
+    to {
+        opacity: 0.0;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * NASLOV * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#welcome-title h1 {
+    color: black;
+    font-size: 5em;
+    font-style: italic;
+}
+
+#welcome-title h3 {
+    color: black;
+}
+
+#welcome-title {
+    width: 50vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 20vh;
+    left: 25vw;
+    z-index: 30;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * AKCIJE * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#Akcije {
+    height: 900px;
+    width: 60%;
+    margin: 0px auto;
+    box-shadow: 0px 0px 30px #222E50, 0px 0px 30px #222E50;
+    padding: 0px;
+}
+
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-item img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.carousel-item:nth-child(2) .carousel-caption,
+.carousel-item:nth-child(3) .carousel-caption {
+    color: black;
+}
+
+#Akcije .img-fluid {
+    width: 100%;
+    box-shadow: 0px 0px 30px #222E50, 0px 0px 30px #222E50;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * KATEGORIJE * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#kategorije {
+    margin-top: 500px;
+    height: 650px;
+    background-image: url("../img/ShoesFooter.jpg");
+    background-repeat: no-repeat;
+    background-position: center bottom 0px;
+    background-repeat: repeat-x;
+}
+
+#kategorije hgroup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#kategorije-naslov h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+#kategorije-naslov h5 {
+    font-size: 1.5em;
+}
+
+#kategorije-kartice {
+    margin-top: 50px;
+}
+
+#kategorije-kartice .row {
+    display: flex;
+    justify-content: space-around;
+}
+
+#kategorije-kartice .row .col-md-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 0px 0px 20px #222E50;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#kategorije-kartice .row .col-md-3:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+#kategorije-kartice .row .col-md-3:first-of-type:hover {
+    transition: 0.3s;
+    box-shadow: 0px 0px 30px #222E50, 0px 0px 30px #222E50;
+}
+#kategorije-kartice .row .col-md-3:nth-last-of-type(2):hover {
+    transition: 0.3s;
+    box-shadow: 0px 0px 30px #FFC0CB, 0px 0px 30px #FFC0CB;
+}
+#kategorije-kartice .row .col-md-3:last-of-type:hover {
+    transition: 0.3s;
+    box-shadow: 0px 0px 30px #BCD8C1, 0px 0px 30px #BCD8C1;
+}
+
+
+#kategorije-kartice .row .col-md-3 .hcontainer {
+    margin-bottom: 20px;
+    width: 100%;
+    padding-top: 5px;
+}
+
+#kategorije-kartice .row .col-md-3 img {
+    width: 70%;
+    height: 70%;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * FOOTER * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+}
+
+footer section {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+footer section:nth-child(2) {
+    border-left: 1px solid #BCD8C1;
+    border-right: 1px solid #BCD8C1;
+    width: 50%;
+}
+
+footer section article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+footer section article p {
+    margin: 0px 0px 0px 10px;
+}
+
+footer a:hover,
+footer h5:hover {
+    color: #BCD8C1 !important;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * MODAL * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.modal-header,
+.modal-footer {
+    background-color: #222E50;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: space-around;
+}
+
+#account-modal .modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-close {
+    background-color: white;
+    opacity: 1 !important;
+}
+
+.btn-close:hover {
+    background-color: #BCD8C1;
+}
+
+.hide {
+    display: none !important;
+}
+
+#signup-modal .alert-danger {
+    padding: 4px;
+    line-height: 2em;
+}
+
+#login-modal .alert-danger {
+    padding: 10px;
+}
+
+.error-border {
+    border: 1px solid red;
+    box-shadow: 0px 0px 5px red;
+}
+
+.modal-footer .btn {
+    background-color: white;
+}
+
+.modal-footer .btn:hover {
+    background-color: #BCD8C1;
+}
+
+#signup-forma {
+    width: 100%;
+
+}
+#signup-forma .container-sm {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+#signup-forma .container-sm .row{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+#signup-forma .row .col-md {
+    margin-bottom: 25px;
+}
+
+#signup-forma .row .col-sm-9,
+.row .col-sm-3 {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+#signup-forma .row .col-md {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+}
+
+#signup-forma .row .col-md .formup {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+#signup-forma .row .col-md .formdown {
+    margin-top: 15px;
+}
+
+#signup-forma .row .col-md label,
+.row .col-sm-9 label {
+    margin-right: 20px;
+}
+
+#signup-forma .row .col-sm-3 {
+    justify-content: flex-start;
+}
+
+#signup-forma .row .col-sm-9 {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#signup-forma .row .alert-success {
+    padding: 10px;
+}
+
+#error-modal .modal-content {
+    width:80%;
+}
+#error-modal .modal-header {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+#error-modal .modal-header button:hover{
+    background-color: rgba(255, 0, 0, 0.6);
+}
+#error-modal .modal-body {
+    background-color: rgba(255, 0, 0, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+}
+#success-modal .modal-header {
+    padding:0px;
+}
+#success-modal .modal-header button{
+    margin-right: 0px;
+}
+#success-modal .modal-body {
+    margin-bottom: 0px;
+}
+#success-signup {
+    margin: 0px;
+}
+.processing {
+    padding: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.processing p {
+    margin: 0px;
+}
+.loading-img {
+    max-height: 30px;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * PRODUCTS STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#second-page {
+    height: 1500px;
+    background-color: white;
+    box-shadow: inset 0px 0px 250px #BCD8C1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#frame {
+    overflow: hidden;
+    border: 2px solid #222E50;
+    box-shadow: 0px 0px 20px #222E50;
+    background-color: white;
+    width: 80%;
+    height: 80%;
+    padding: 0px;
+}
+
+#ukloni-filtre {
+    cursor: pointer;
+    transition: 0.3s;
+}
+#ukloni-filtre:hover {
+    background-color: #444F72;
+    transition: 0.3s;
+}
+#no-shoes {
+    height:10%;
+}
+#no-shoes h2 {
+    font-size: 2vw;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * FILTER NAVBAR * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#frame .container-fluid {
+    padding: 0px;
+    height: 100%;
+}
+
+#frame .navbar {
+    padding: 0px;
+    position: relative;
+    height: 70px;
+    margin-bottom: 15px;
+}
+
+#frame .navbar-toggler {
+    margin: 0.5em;
+    margin-left: 1em;
+    color: black;
+}
+
+#frame .navbar-nav .btn {
+    background-color: #BCD8C1;
+}
+
+#filter {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+#frame .navbar-nav {
+    display: flex;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0px !important;
+}
+
+#frame .navbar-nav li {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#frame .navbar-nav li a {
+    color: white;
+}
+
+#frame .offcanvas {
+    height: 70%;
+    width: 40% !important;
+    border-radius: 0px 0px 0px 5%;
+}
+
+#frame .offcanvas-header {
+    border-bottom: 1px solid #BCD8C1;
+}
+
+#frame .offcanvas-body {
+    padding: 0px;
+}
+
+.padajuci-meni {
+    left: 3% !important;
+    margin-top: 54px !important;
+    border: 0px;
+    border-top: 1px dotted #BCD8C1;
+    border-radius: 0px 0px 10% 10%;
+    width: 90%;
+    background-color: #222E50;
+}
+
+.padajuci-meni li:hover {
+    color: black !important;
+    background-color: #BCD8C1;
+}
+
+.padajuci-meni li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#filter-tekst {
+    display: none;
+}
+
+#apply-filters {
+    color:#222E50;
+}
+#apply-filters:hover {
+    box-shadow: 0px 0px 10px #BCD8C1;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * FLITER DUGMAD * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+#dropdown-cena {
+    height: 80px;
+}
+
+#dropdown-cena li {
+    cursor: auto;
+}
+
+#dropdown-cena li p {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    line-height: 0.8em;
+}
+
+#dropdown-cena li:hover, #ostali-filtri li:hover {
+    background-color: #222E50;
+    color:white !important;
+}
+
+#amount {
+    font-size: 1.1em;
+}
+
+#filter-display {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    border-bottom: 1px dotted #222E50;
+}
+
+.filter-dugme {
+    margin-bottom: 15px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.filter-dugme:hover {
+    background-color: #222E50;
+    cursor: auto;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * DUPLI SLAJDER * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.ui-slider {
+    font-size: 0.7em;
+    width: 85%;
+}
+
+.ui-slider-handle {
+    background-blend-mode: multiply;
+    font-size: 1.7em;
+    top: -0.5em !important;
+}
+
+.ui-slider-range {
+    background-color: #BCD8C1;
+    background-blend-mode: multiply;
+}
+
+span.ui-slider-handle.ui-state-default.ui-corner-all:first-of-type {
+    border-radius: 1px 50% 50% 1px;
+    background-color: white;
+    cursor: pointer;
+}
+
+span.ui-slider-handle.ui-state-default.ui-corner-all:last-of-type {
+    border-radius: 50% 1px 1px 50%;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * PATIKE * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.plava {
+    color:blue;
+}
+.crvena {
+    color: red;
+}
+#patike-display {
+    height: 92%;
+    overflow-y: auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.shoe {
+    max-width: 300px;
+    min-width: 200px;
+    max-height: 420px;
+    margin-left: 5px;
+    margin-right: 5px;
+    box-shadow: 0 4px 5px -3px #222E50;
+    border-bottom: 2px solid #222E50;
+    transition: 0.1s;
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+    /* cursor:pointer; */
+}
+
+.shoe:hover {
+    transition: 0.1s;
+    box-shadow: 0 4px 5px -3px #222E50, 0 4px 10px -3px #222E50;
+}
+#free-shipping-img {
+    width:17%;
+    position: absolute;
+    bottom:3%;
+    left:3%;
+}
+#free-shipping-img:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+.shoe img:hover {
+    transform: scale(1.07);
+    transition: 0.3s;
+}
+
+.shoe img {
+    width: 95%;
+    transition: 0.3s;
+    margin: 0px auto;
+    margin-top: 5px;
+}
+
+.shoe strong {
+    font-size: 1.1em;
+}
+
+.shoe i {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#text-shipping {
+    margin: 0px;
+}
+
+.shoe a {
+    position: absolute;
+    bottom: 4%;
+    right: 4%;
+    border-bottom: 1px solid #222E50;
+    padding-bottom: 10px;
+    box-shadow: 0 4px 1px -3px #222E50;
+    cursor: pointer;
+}
+
+#shoe-price {
+    font-size: 1.15em;
+    margin-bottom: 10px;
+}
+#shoe-price strong {
+    font-size: 0.97em;
+}
+#shoe-price p {
+    margin-bottom: 0px;
+}
+
+#uspesno-dodato,
+#uspesno-skinuto {
+    position: fixed;
+    bottom: -12%;
+    left: 80%;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * CART STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#korpa-main {
+    min-height: 90vh;
+}
+#korpa-drzac {
+    height:70vh;
+    margin-top: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.stavka {
+    width: 100%;
+    max-height: 300px;
+    position: relative;
+}
+.stavka .col-md-5 {
+    min-height: 100px;
+}
+.stavka h2 {
+    font-size: 2vw;
+}
+.obrisi-stavku {
+    position: absolute;
+    top:5%;
+    right:0.5%;
+    font-size: 2vw;
+    cursor: pointer;
+    max-width: 50px !important;
+    max-height: 50px !important;
+}
+#korpa-info button {
+    font-size: 1vw;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * PROFILE STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#profile-main, #admin-main{
+    min-height: 90vh;
+}
+#profile-drzac {
+    height:100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0px;
+    margin-top: 100px;
+}
+.kupovina {
+    border-bottom: 10px solid #222E50;
+}
+.porudzbina-informacije div {
+    border-bottom: 5px solid #222E50;
+    background-color: rgb(188,216,193, 0.2);
+}
+.kupovina:last-of-type {
+    margin-bottom: 0px !important;
+    border-bottom: 0px !important;
+}
+#ajax-error {
+    position: absolute;
+    top:10%;
+    left:50%;
+    transform: translateX(-50%);
+    opacity: 0%;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * ADMIN STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+#admin-drzac {
+    width:90% !important;
+    overflow-y: auto;
+    margin-top: 100px;
+}
+.required {
+    font-weight: 700 !important;
+    font-style: italic !important;
+    color: red;
+}
+#modalErrMsg {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}

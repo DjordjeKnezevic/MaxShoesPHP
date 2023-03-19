@@ -1,0 +1,32 @@
+version: "2.16"
+
+services:
+  php:
+    container_name: "php-maxshoes"
+    build: ./php-apache
+    volumes:
+      - ./php-apache/src:/var/www/html
+      - ./php-apache/includes:/var/www/includes
+    ports:
+      - "8080:80"
+    # env_file:
+    #   - ./env/php.env
+  phpmyadmin:
+    container_name: "phpmyadmin-maxshoes"
+    image: phpmyadmin:latest
+    env_file:
+      - ./env/phpmyadmin.env
+    ports:
+      - "8081:80"
+#     depends_on:
+#       - mysql
+#   mysql:
+#     container_name: "mysql-maxshoes"
+#     image: mysql:latest
+#     env_file:
+#       - ./env/mysql.env
+#     volumes:
+#       - data:/var/lib/mysql
+
+# volumes:
+#   data:
