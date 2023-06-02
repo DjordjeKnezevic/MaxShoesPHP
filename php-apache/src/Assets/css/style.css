@@ -873,6 +873,19 @@ span.ui-slider-handle.ui-state-default.ui-corner-all:last-of-type {
     opacity: 0%;
 }
 
+#anketa {
+    height:100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0px;
+}
+
+#anketa-drzac {
+    border: 5px solid #222E50;
+    border-radius: 7%;
+    background-color: rgba(34, 46, 80, 0.25);
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * ADMIN STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #admin-drzac {
@@ -890,4 +903,12 @@ span.ui-slider-handle.ui-state-default.ui-corner-all:last-of-type {
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
+}
+
+#slika-update-drzac, #slika-update-drzac img {
+max-height:200px;
+}
+
+#update-form {
+    min-width: 70% !important;
 }

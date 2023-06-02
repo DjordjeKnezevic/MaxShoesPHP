@@ -2,8 +2,8 @@
 
 $MYSQL_DATABASE_HOST = 'maxshoes.cbqf4ibv1izd.eu-central-1.rds.amazonaws.com';
 $MYSQL_DATABASE_NAME = 'MaxShoes';
-$MYSQL_USER = 'Dzndzo9632139';
-$MYSQL_PASSWORD = 'sdklj32l23lhk';
+$MYSQL_USER = 'Djole32123';
+$MYSQL_PASSWORD = 'sdklj32l23lhK!';
 $PHPMAILER_CLIENTID = "{23575631036-se2v9n11ggd018d638a2vr07oqmn9kj0.apps.googleusercontent.com}";
 $PHPMAILER_CLIENTSECRET = "{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}";
 $PHPMAILER_REDIRECT_URI = 'http://localhost:8080/vendor/phpmailer/phpmailer/get_oauth_token.php';
@@ -54,4 +54,3 @@ INNER JOIN kategorija k ON k.id = p.kategorija_id
 INNER JOIN brend b ON b.id = p.brend_id
 INNER JOIN slika s ON s.id = p.slika_id 
 ");
-?>

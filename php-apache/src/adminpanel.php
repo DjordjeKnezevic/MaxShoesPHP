@@ -16,6 +16,15 @@ $kategorije = $conn->query($queryKategorija)->fetchAll();
 $queryBrend = "SELECT * FROM brend";
 $brendovi = $conn->query($queryBrend)->fetchAll();
 
+$queryShoes = "SELECT 
+p.id AS id, 
+p.model AS model, 
+b.naziv AS brend
+FROM patika p
+INNER JOIN brend b ON b.id = p.brend_id
+ORDER BY b.naziv, p.model";
+$queryShoes = $conn->query($queryShoes)->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +85,7 @@ include("../includes/head.php")
             <div class="d-flex justify-content-center" id="shoe-editor">
                 <div class="col-md-4 p-3 d-flex flex-column align-items-center border">
                     <h3>Insert</h3>
+                    <h5>Insert a shoe</h5>
                     <form action="shoemanager.php" method="post" class="p-2 m-0" enctype="multipart/form-data">
                         <div class="form-group my-2">
                             <div class="d-flex justify-content-between"><label
@@ -137,7 +147,8 @@ include("../includes/head.php")
                         </div>
                         <div class="form-group my-2">
                             <div class="d-flex justify-content-between"><label for="file-insert">Image (1 file per
-                                    shoe):</label><strong class="required">Required!</strong>
+                                    shoe, supported formats JPG, PNG, JPEG):</label><strong
+                                    class="required">Required!</strong>
                             </div>
                             <input type="file" name="file-insert" class="form-control-file my-1" id="file-insert">
                         </div>
@@ -151,92 +162,96 @@ include("../includes/head.php")
                     </form>
                 </div>
 
-                <!-- <div class="col-md-4 p-3 d-flex flex-column align-items-center border">
+                <div class="col-md-4 p-3 d-flex flex-column align-items-center border">
                     <h3>Update</h3>
-                    <form action="shoemanager.php" method="post" class="p-2 m-0">
-                        <div class="form-group">
-                            <label for="dropdown1">Dropdown 1:</label>
-                            <select class="form-control" id="dropdown1">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                            </select>
+                    <h5>Choose a shoe to update</h5>
+                    <div class="form-group my-2">
+                        <div class="d-flex justify-content-between"><label for="shoeid-update">Shoe:</label><strong
+                                class="required">Required!</strong>
                         </div>
-                        <div class="form-group">
-                            <label for="dropdown2">Dropdown 2:</label>
-                            <select class="form-control" id="dropdown2">
-                                <option>Option A</option>
-                                <option>Option B</option>
-                                <option>Option C</option>
-                            </select>
+                        <select class="form-control my-1" name="shoeid-update" id="shoeid-update">
+                            <option value="0">Choose a shoe</option>
+                            <?php
+                            foreach ($queryShoes as $shoes) {
+                                echo "<option value='" . $shoes->id . "'>" . $shoes->brend . " " . $shoes->model . " ( Shoe id: " . $shoes->id . " )</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div id="shoe-update-display" class="container d-flex flex-column my-2 p-0">
+                    </div>
+                    <h5 class="mt-2">Choose what to update</h5>
+                    <div class="form-group p-2 mt-1 mb-3 border-bottom" id="update-filters">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="category-chb-update">
+                            <label class="form-check-label" for="category-chb-update">Category</label>
                         </div>
-                        <div class="form-group">
-                            <label for="number1">Number 1:</label>
-                            <input type="number" class="form-control" id="number1">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="brand-chb-update">
+                            <label class="form-check-label" for="brand-chb-update">Brand</label>
                         </div>
-                        <div class="form-group">
-                            <label for="number2">Number 2:</label>
-                            <input type="number" class="form-control" id="number2">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="model-chb-update">
+                            <label class="form-check-label" for="model-chb-update">Model</label>
                         </div>
-                        <div class="form-group">
-                            <label for="number3">Number 3:</label>
-                            <input type="number" class="form-control" id="number3">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="price-chb-update">
+                            <label class="form-check-label" for="price-chb-update">Shoe price</label>
                         </div>
-                        <div class="form-group">
-                            <label for="textInput">Text input:</label>
-                            <input type="text" class="form-control" id="textInput">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="disc-chb-update">
+                            <label class="form-check-label" for="disc-chb-update">Discount</label>
                         </div>
-                        <div class="form-group">
-                            <label for="inputFile">File input:</label>
-                            <input type="file" class="form-control-file" id="inputFile">
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="shipping-chb-update">
+                            <label class="form-check-label" for="shipping-chb-update">Shipping price</label>
                         </div>
-                        <input type="submit" name="updateShoe" value="Update Shoe"
+                        <div class="form-check p-2">
+                            <input type="checkbox" class="form-check-input" id="img-chb-update">
+                            <label class="form-check-label" for="img-chb-update">Image</label>
+                        </div>
+                    </div>
+                    <form action="shoemanager.php" method="post" class="p-2 m-0" enctype="multipart/form-data"
+                        id="update-form">
+                        <input type="text" name="id-update" id="id-selected" class="hide">
+                        <input type="submit" name="updateShoe" value="Update Shoe" id="updateShoe"
                             class="btn btn-primary form-control my-1">
+                        <div class="hide alert alert-info mt-3 d-flex justify-content-between align-items-center processing"
+                            id="updateProcess">
+                            <p class="d-inline-block">Proccessing request...</p>
+                            <img src="Assets/img/loading.gif" alt="loading-img" class="img-fluid mx-2 loading-img">
+                        </div>
                     </form>
                 </div>
                 <div class="col-md-4 p-3 d-flex flex-column align-items-center border">
                     <h3>Delete</h3>
-                    <form action="shoemanager.php" method="post" class="p-2 m-0">
-                        <div class="form-group">
-                            <label for="dropdown1">Dropdown 1:</label>
-                            <select class="form-control" id="dropdown1">
-                                <option>Option 1</option>
-                                <option>Option 2</option>
-                                <option>Option 3</option>
-                            </select>
+                    <h5>Choose a shoe to delete</h5>
+                    <div class="form-group my-2">
+                        <div class="d-flex justify-content-between"><label for="shoeid-delete">Shoe:</label><strong
+                                class="required">Required!</strong>
                         </div>
-                        <div class="form-group">
-                            <label for="dropdown2">Dropdown 2:</label>
-                            <select class="form-control" id="dropdown2">
-                                <option>Option A</option>
-                                <option>Option B</option>
-                                <option>Option C</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="number1">Number 1:</label>
-                            <input type="number" class="form-control" id="number1">
-                        </div>
-                        <div class="form-group">
-                            <label for="number2">Number 2:</label>
-                            <input type="number" class="form-control" id="number2">
-                        </div>
-                        <div class="form-group">
-                            <label for="number3">Number 3:</label>
-                            <input type="number" class="form-control" id="number3">
-                        </div>
-                        <div class="form-group">
-                            <label for="textInput">Text input:</label>
-                            <input type="text" class="form-control" id="textInput">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputFile">File input:</label>
-                            <input type="file" class="form-control-file" id="inputFile">
-                        </div>
+                        <select class="form-control my-1" name="shoeid-delete" id="shoeid-delete">
+                            <option value="0">Choose a shoe</option>
+                            <?php
+                            foreach ($queryShoes as $shoes) {
+                                echo "<option value='" . $shoes->id . "'>" . $shoes->brend . " " . $shoes->model . " ( Shoe id: " . $shoes->id . " )</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div id="shoe-delete-display" class="container d-flex flex-column p-0">
+                    </div>
+                    <form action="shoemanager.php" method="post" class="p-2 m-0 w-100">
+                    <input type="text" name="id-delete" id="id-selected-delete" class="hide">
                         <input type="submit" name="deleteShoe" value="Delete Shoe"
-                            class="btn btn-primary form-control my-1">
+                            class="btn btn-primary form-control my-2" id="deleteShoe">
+                        <div class="hide alert alert-info d-flex justify-content-between align-items-center processing mt-2"
+                            id="deleteProcess">
+                            <p class="d-inline-block">Proccessing request...</p>
+                            <img src="Assets/img/loading.gif" alt="loading-img" class="img-fluid mx-2 loading-img">
+                        </div>
                     </form>
-                </div> -->
+                </div>
             </div>
         </div>
     </main>

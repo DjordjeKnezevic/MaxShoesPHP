@@ -265,7 +265,7 @@ window.onload = async function () {
             getShoes
         });
         allShoes = shuffle(konvertujPatike(allShoes));
-        var shoeList = allShoes;
+
 
         // ENABLE-OVANJE BOOTSTRAPOVOG TOOLTIP-A ZA KORPE
         $(document).ready(function () {
@@ -681,7 +681,7 @@ window.onload = async function () {
                 makeAnOrder
             });
             brisiSveIzKorpe();
-            $('#success-modal .modal-body').html("Purchase successfull, redirection to profile page...");
+            $('#success-modal .modal-body').html("Purchase successfull, redirecting to profile page...");
             $('#success-modal .modal-header h1').html("Success!");
             $('#success-modal').show();
             setTimeout(function () {
@@ -691,9 +691,41 @@ window.onload = async function () {
         stampajKorpu(stavkeUKorpi);
     }
 
+    //* * * * * * * * * * * * * * * * * * * * * * * * * * PROFILE STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * *//
+    else if (url == "/profile.php") {
+
+        let submitVote = document.getElementById("submitVote");
+        submitVote.addEventListener("click", async function (event) {
+            event.preventDefault();
+            const selectedValue = document.querySelector('input[type="radio"]:checked');
+            if (selectedValue) {
+                document.getElementById("anketa-error").classList.add("hide");
+                let idGlas = selectedValue.id
+                let brojGlasova = await ajaxCall("anketa.php", "post", {
+                    submitVote: true,
+                    idGlas
+                });
+                document.getElementById("anketa-success").classList.remove("hide");
+                submitVote.disabled = true;
+                document.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+                    radio.disabled = true;
+                    let glasoviIzbora = brojGlasova.find(glas => glas.id == radio.id);
+                    if (radio.checked) {
+                        radio.setAttribute("checked", "");
+                        radio.parentElement.innerHTML += `<p class='d-inline-block m-0'>(${glasoviIzbora.broj_glasova} votes) <i>Your vote</i></p>`;
+                    } else {
+                        radio.parentElement.innerHTML += `<p class='d-inline-block m-0'>(${glasoviIzbora.broj_glasova} votes)</p>`;
+                    }
+
+                })
+            } else {
+                document.getElementById("anketa-error").classList.remove("hide");
+            }
+        });
+
+    }
     //* * * * * * * * * * * * * * * * * * * * * * * * * * ADMIN STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * *//
     else if (url == "/adminpanel.php") {
-
 
         let modalErrMsg = document.querySelector('.modalErrMsg');
         if (modalErrMsg) {
@@ -712,6 +744,187 @@ window.onload = async function () {
         document.getElementById("insertShoe").addEventListener("click", function () {
             document.getElementById("insertProcess").classList.remove("hide");
         })
+        document.getElementById("updateShoe").addEventListener("click", function () {
+            document.getElementById("updateProcess").classList.remove("hide");
+        })
+        document.getElementById("deleteShoe").addEventListener("click", function () {
+            document.getElementById("deleteProcess").classList.remove("hide");
+        })
+        var allShoes = konvertujPatike(await ajaxCall("filter.php", "post", {
+            getShoes: true
+        }));
+
+        const distinctCategories = [...new Set(allShoes.map(obj => obj.kategorija_naziv))];
+        const distinctBrands = [...new Set(allShoes.map(obj => obj.brend_naziv))].sort();
+        let shoeDisplayed;
+        let shoeUpdateDisplay = document.getElementById("shoe-update-display");
+        let shoeChoiceDd = document.getElementById("shoeid-update");
+        let shoeIdInput = document.getElementById("id-selected");
+
+        async function displayShoe(ddlShoes, shoeDisplay, id) {
+            shoeDisplayed = allShoes.find(shoe => shoe.patika_id == parseInt(ddlShoes.value));
+            if (!shoeDisplayed) {
+                shoeDisplay.innerHTML = '';
+                id.value = "";
+                return
+            }
+            shoeDisplay.innerHTML = `
+            <div class="d-flex justify-content-center" id="slika-update-drzac"><img
+            src="${shoeDisplayed.slika_src}" alt=${shoeDisplayed.slika_alt}></div>
+    <div class="p-1 d-flex flex-column ">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <p class="d-inline fw-bold">Brand:</p> ${shoeDisplayed.brend_naziv}
+            </li>
+            <li class="list-group-item">
+                <p class="d-inline fw-bold">Model:</p> ${shoeDisplayed.patika_model}
+            </li>
+            <li class="list-group-item">
+                <p class="d-inline fw-bold">Category:</p> ${shoeDisplayed.kategorija_naziv}
+            </li>
+            <li class="list-group-item">
+                <p class="d-inline fw-bold">Price (base): $</p>${shoeDisplayed.bazna_cena}
+            </li>
+            ${shoeDisplayed.popust ? '<li class="list-group-item"><p class="d-inline fw-bold">Discount: </p>' + shoeDisplayed.popust + ' (' + Math.round(100*(1 - shoeDisplayed.popust)) + '%)</li>' :
+        '<li class="list-group-item"><p class="d-inline fw-bold">Discount:</p> N/A</li>'}
+        ${shoeDisplayed.cena_postarine ? '<li class="list-group-item"><p class="d-inline fw-bold">Shipping: $</p>' + shoeDisplayed.cena_postarine + '</li>' :
+        '<li class="list-group-item"><p class="d-inline fw-bold">Shipping:</p> Free</li>'}
+        </ul>
+    </div>`
+            id.value = shoeDisplayed.patika_id;
+        }
+        shoeChoiceDd.addEventListener("change", function () {
+            displayShoe(shoeChoiceDd, shoeUpdateDisplay, shoeIdInput)
+        });
+
+
+        let filterDiv = document.getElementById("update-filters");
+        let updateShoe = document.getElementById("updateShoe");
+        const updateForm = document.getElementById("update-form");
+        filterDiv.addEventListener("change", (event) => {
+            const checkboxId = event.target.id;
+
+            if (event.target.checked) {
+                let divForm = document.createElement("div");
+                divForm.classList.add("form-group", "my-2");
+                switch (checkboxId) {
+                    case "category-chb-update":
+                        divForm.setAttribute("id", "category-selected");
+                        let categoriesHtml = '';
+                        for (let cat of distinctCategories) {
+                            categoriesHtml += '<option value="' + (parseInt(distinctCategories.indexOf(cat)) + 1) * 1 + '">' + cat + '</option>'
+                        }
+                        divForm.innerHTML = `<div class="d-flex justify-content-between"><label
+                        for="category-update">Category:</label></div>
+                <select class="form-control my-1" name="category-update" id="category-update">
+                    <option value="0">Choose a category</option>
+                    ${categoriesHtml}
+                </select>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "brand-chb-update":
+                        divForm.setAttribute("id", "brand-selected");
+                        let brandsHtml = '';
+                        for (let brand of distinctBrands) {
+                            brandsHtml += '<option value="' + (parseInt(distinctBrands.indexOf(brand)) + 1) * 1 + '">' + brand + '</option>'
+                        }
+                        divForm.innerHTML = `<div class="d-flex justify-content-between"><label
+                        for="brand-update">Brand:</label></div>
+                <select class="form-control my-1" name="brand-update" id="brand-update">
+                    <option value="0">Choose a brand</option>
+                    ${brandsHtml}
+                </select>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "model-chb-update":
+                        divForm.setAttribute("id", "model-selected");
+                        divForm.innerHTML = `<div class="form-group my-2">
+                        <div class="d-flex justify-content-between"><label for="model-update">Model name (format
+                                varchar(50)):</label>
+                        </div>
+                        <input type="text" placeholder="Between 3 and 50 characters" name="model-update"
+                            class="form-control my-1" id="model-update"></div>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "price-chb-update":
+                        divForm.setAttribute("id", "price-selected");
+                        divForm.innerHTML = `<div class="form-group my-2">
+                        <div class="d-flex justify-content-between"><label for="price-update">Shoe price (format
+                                Decimal(6,2)):</label>
+                        </div>
+                        <input type="number" placeholder="Between 10 and 999 dollars" name="price-update"
+                            class="form-control my-1" id="price-update">
+                        </div>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "disc-chb-update":
+                        divForm.setAttribute("id", "disc-selected");
+                        divForm.innerHTML = `<div class="form-group my-2 border p-2">
+                        <label for="discount-update">Discount (format Decimal(3,2), leave blank for no discount/End current discount):</label>
+                        <input type="number" step="0.01" placeholder="Example: 0.70 if you want 30% discount"
+                            name="discount-update" class="form-control my-1" id="">
+                    </div>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "shipping-chb-update":
+                        divForm.setAttribute("id", "shipping-selected");
+                        divForm.innerHTML = `<div class="form-group my-2">
+                        <label for="shipping-update">Shipping price (format Decimal(6,2), leave blank for free
+                            shipping):</label>
+                        <input type="number" placeholder="Between 0 and 999 dollars" name="shipping-update"
+                            class="form-control my-1" id="shipping-update">
+                    </div>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    case "img-chb-update":
+                        divForm.setAttribute("id", "img-selected");
+                        divForm.innerHTML = `<div class="form-group my-2">
+                        <div class="d-flex justify-content-between"><label for="file-update">Image (1 file per
+                                shoe, supported formats JPG, PNG, JPEG):</label>
+                        </div>
+                        <input type="file" name="file-update" class="form-control-file my-1" id="file-update">
+                    </div>`;
+                        updateForm.insertBefore(divForm, updateShoe);
+                        break;
+                    default:
+                        updateForm.innerHTML += "";
+                        break;
+                }
+            } else {
+                switch (checkboxId) {
+                    case "category-chb-update":
+                        document.getElementById("category-selected").remove();
+                        break;
+                    case "brand-chb-update":
+                        document.getElementById("brand-selected").remove();
+                        break;
+                    case "model-chb-update":
+                        document.getElementById("model-selected").remove();
+                        break;
+                    case "price-chb-update":
+                        document.getElementById("price-selected").remove();
+                        break;
+                    case "disc-chb-update":
+                        document.getElementById("disc-selected").remove();
+                        break;
+                    case "shipping-chb-update":
+                        document.getElementById("shipping-selected").remove();
+                        break;
+                    case "img-chb-update":
+                        document.getElementById("img-selected").remove();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+        let shoeDeleteDisplay = document.getElementById("shoe-delete-display");
+        let shoeChoiceDdDelete = document.getElementById("shoeid-delete");
+        let shoeIdInputDelete = document.getElementById("id-selected-delete");
+        shoeChoiceDdDelete.addEventListener("change", function () {
+            displayShoe(shoeChoiceDdDelete, shoeDeleteDisplay, shoeIdInputDelete)
+        });
     }
 }
 

@@ -6,6 +6,13 @@ if (!isset($_SESSION["loggedUser"])) {
 include("../includes/env.php");
 include("../includes/connect.php");
 
+$query = "SELECT * FROM brend";
+$brendovi = $conn->query($query)->fetchAll();
+
+$user = $_SESSION["loggedUser"];
+$userId = $user->id;
+$query = "SELECT * FROM anketa WHERE user_id = $userId";
+$rez = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -19,16 +26,14 @@ include("../includes/head.php")
     <?php
     include("../includes/navbar.php");
     ?>
-    <main id="profile-main">
+    <main id="profile-main" class="container-fluid d-flex row">
         <?php
         include("../includes/modal.php");
         ?>
-        <div class="container d-flex flex-column" id="profile-drzac">
+        <div class="d-flex flex-column col-md-8" id="profile-drzac">
 
             <?php
-            $user = $_SESSION["loggedUser"];
 
-            $userId = $user->id;
             $query = "SELECT * FROM porudzbina p INNER JOIN porudzbina_patika pp ON p.id = pp.porudzbina_id WHERE p.user_id = $userId;";
             $porudzbine = $conn->query($query)->fetchAll();
 
@@ -49,7 +54,7 @@ include("../includes/head.php")
                         echo "<div class='row my-3 kupovina'><div class='col-md-3 d-flex flex-column porudzbina-informacije'>
                         <div class='mb-2 p-1 rounded'><h2 class='text-decoration-underline'>Time of purchase:</h2><h4>" . $porudzbina->datum_porudzbine . "</h4></div>
                         <div class='mb-2 p-1 rounded'><h2 class='text-decoration-underline'>Total price:</h2><h4>$" . $porudzbina->ukupna_cena . "</h4></div>
-                        <div class='mb-2 rounded p-1'><h2 class='text-decoration-underline'>Estimated delivery time:</h2><h4>" . $porudzbina->procenjen_datum_dostave . "</h4></div>
+                        <div class='mb-3 rounded p-1'><h2 class='text-decoration-underline'>Estimated delivery time:</h2><h4>" . $porudzbina->procenjen_datum_dostave . "</h4></div>
                         </div><div class='col-md-9'>";
                         $porudzbinaId = $porudzbina->id;
                     }
@@ -92,10 +97,76 @@ include("../includes/head.php")
                     ";
                     $brojac = 1;
                 }
+                echo "</div></div>";
             }
             ?>
-
         </div>
+        <div class="col-md-4 p-2 d-flex flex-column justify-content-center align-items-center" id="anketa">
+            <div class="p-4" id="anketa-drzac">
+                <h5>Which brand of shoes do you like the most?</h5>
+                <form action="" class="">
+                    <div class="form-group p-2 mt-1" id="anketa-izbori">
+                        <?php
+                        if ($rez->rowCount() > 0) {
+                            $idGlasanogBrenda = $rez->fetch()->brend_id;
+                            $query = "SELECT brend.id,COUNT(anketa.brend_id) as broj_glasova FROM `brend` LEFT OUTER JOIN `anketa`
+                            ON brend.id = anketa.brend_id
+                            GROUP BY brend.id;";
+                            $brojGlasovaPoBrendu = $conn->query($query)->fetchAll();
+                            foreach ($brendovi as $key => $brend) {
+                                $brojGlasova = $brojGlasovaPoBrendu[$key]->broj_glasova;
+                                if ($idGlasanogBrenda == $brend->id) {
+                                    echo "<div class='form-check p-2 border-bottom my-1'>
+                                    <input class='form-check-input mx-0' type='radio' name='izbor' id='$brend->id' checked disabled>
+                                    <label class='form-check-label mx-2' for='$brend->id'>$brend->naziv</label>
+                                    <p class='d-inline-block m-0'>($brojGlasova votes) <i>Your vote</i></p>
+                                    </div>";
+                                } else {
+                                    echo "<div class='form-check p-2 border-bottom my-1'>
+                                    <input class='form-check-input mx-0' type='radio' name='izbor' id='$brend->id' disabled>
+                                    <label class='form-check-label mx-2' for='$brend->id'>$brend->naziv</label>
+                                    <p class='d-inline-block m-0'>($brojGlasova votes)</p>
+                                    </div>";
+                                }
+                            }
+                            echo "</div><input type='button' name='submitVote' value='Vote' class='btn btn-primary form-control my-2'
+                            id='submitVote' disabled></form><div class='alert alert-success d-flex align-items-center mt-2' role='alert'
+                            id='anketa-success'>
+                            <svg xmlns='http://www.w3.org/2000/svg'
+                                class='bi bi-exclamation-triangle-fill flex-shrink-0 me-2' viewBox='0 0 16 16'
+                                role='img' aria-label='Warning:' width='15px' height='15px'>
+                                <path
+                                    d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z' />
+                            </svg>
+                            <div>
+                                Thank you for your vote
+                            </div>
+                        </div>";
+                        } else {
+                            foreach ($brendovi as $brend) {
+                                echo "<div class='form-check p-2 border-bottom my-1'>
+                            <input class='form-check-input mx-0' type='radio' name='izbor' id='$brend->id'>
+                            <label class='form-check-label mx-2' for='$brend->id'>$brend->naziv</label>
+                        </div>";
+                            }
+                            echo "</div><input type='button' name='submitVote' value='Vote' class='btn btn-primary form-control my-2'
+                            id='submitVote'></form><span class='hide alert alert-danger d-inline-block w-100 p-2 mt-1' id='anketa-error'>You must select an
+                                option in order to vote</span><div class='alert alert-success d-flex align-items-center mt-2 hide' role='alert'
+                                id='anketa-success'>
+                                <svg xmlns='http://www.w3.org/2000/svg'
+                                    class='bi bi-exclamation-triangle-fill flex-shrink-0 me-2' viewBox='0 0 16 16'
+                                    role='img' aria-label='Warning:' width='15px' height='15px'>
+                                    <path
+                                        d='M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z' />
+                                </svg>
+                                <div>
+                                    Thank you for your vote
+                                </div>
+                            </div>";
+                        }
+                        ?>
+                    </div>
+            </div>
     </main>
     <?php
     include("../includes/footer.php");

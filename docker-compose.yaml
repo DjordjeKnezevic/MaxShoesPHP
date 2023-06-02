@@ -18,8 +18,8 @@ services:
       - ./env/phpmyadmin.env
     ports:
       - "8081:80"
-#     depends_on:
-#       - mysql
+    # depends_on:
+    #   - mysql
 #   mysql:
 #     container_name: "mysql-maxshoes"
 #     image: mysql:latest

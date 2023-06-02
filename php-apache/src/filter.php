@@ -45,11 +45,11 @@ if (
     if (isset($_POST['donjaCena']) && isset($_POST['gornjaCena'])) {
         $donjaCena = $_POST['donjaCena'];
         $gornjaCena = $_POST['gornjaCena'];
-        $filterQuery .= "IFNULL((c.vrednost * pop.procenat), c.vrednost) < $gornjaCena AND 
-        IFNULL((c.vrednost * pop.procenat), c.vrednost) > $donjaCena AND ";
+        $filterQuery .= "IFNULL((c.vrednost * pop.procenat), c.vrednost) <= $gornjaCena AND 
+        IFNULL((c.vrednost * pop.procenat), c.vrednost) >= $donjaCena AND ";
     }
-    if(isset($_POST['ids'])) {
-        $ids = implode(",",$_POST['ids']);
+    if (isset($_POST['ids'])) {
+        $ids = implode(",", $_POST['ids']);
         $filterQuery .= "p.id IN ($ids) AND ";
     }
     $filterQuery = substr($filterQuery, 0, strlen($filterQuery) - 4);
