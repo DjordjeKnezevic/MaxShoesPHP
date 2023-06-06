@@ -18,9 +18,9 @@ WORKDIR /var/www/html/
 
 COPY ./src .
 
-RUN mkdir ../includes
+RUN mkdir ../config
 
-COPY ./includes ../includes
+COPY ./config ../config
 
 RUN chown -R www-data:www-data /var/www/html/Assets
 RUN chmod -R 777 /var/www/html/Assets

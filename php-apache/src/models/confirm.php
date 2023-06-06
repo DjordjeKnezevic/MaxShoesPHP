@@ -4,8 +4,8 @@ session_start();
 
 
 if (isset($_GET["num"])) {
-    include("../includes/env.php");
-    include("../includes/connect.php");
+    include("../../config/env.php");
+    include("../../config/connect.php");
     $num = $_GET["num"];
 
     try {

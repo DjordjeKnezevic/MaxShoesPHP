@@ -6,7 +6,7 @@ services:
     build: ./php-apache
     volumes:
       - ./php-apache/src:/var/www/html
-      - ./php-apache/includes:/var/www/includes
+      - ./php-apache/config:/var/www/config
     ports:
       - "8080:80"
     # env_file:

@@ -10,8 +10,8 @@ if (
 }
 
 header('Content-Type: application/json');
-include("../includes/env.php");
-include("../includes/connect.php");
+include("../../config/env.php");
+include("../../config/connect.php");
 
 $userId = $_SESSION["loggedUser"]->id;
 $idGlas = $_POST["idGlas"];

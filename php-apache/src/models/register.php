@@ -6,8 +6,8 @@ if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQ
     exit;
 }
 
-include("../includes/env.php");
-include("../includes/connect.php");
+include("../../config/env.php");
+include("../../config/connect.php");
 header('Content-Type: application/json');
 
 $newUser = $_POST['novKorisnik'];
@@ -156,13 +156,13 @@ try {
     exit;
 }
 
-$PHPMAIL_DESTINATION = 'https://distortive-hello.000webhostapp.com/confirm.php'; // env fajl
+$PHPMAIL_DESTINATION = 'https://distortive-hello.000webhostapp.com/models/confirm.php'; // env fajl
 $mailBody = "<a href='$PHPMAIL_DESTINATION?num=$randomNumber'>Click to confirm your mail</a>";
 
 use League\OAuth2\Client\Provider\Google;
 
-require('dependencies/autoload.php');
-require('dependencies/league/oauth2-google/src/Provider/Google.php');
+require('../dependencies/autoload.php');
+require('../dependencies/league/oauth2-google/src/Provider/Google.php');
 $provider = new Google([
     'clientId' => $PHPMAILER_CLIENTID,
     'clientSecret' => $PHPMAILER_CLIENTSECRET,
@@ -200,5 +200,3 @@ try {
 }
 
 $mail->smtpClose();
-
-?>

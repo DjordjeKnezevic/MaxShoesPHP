@@ -7,8 +7,8 @@ if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQ
     exit;
 }
 
-include("../includes/env.php");
-include("../includes/connect.php");
+include("../../config/env.php");
+include("../../config/connect.php");
 header('Content-Type: application/json');
 
 $trazeniKorisnik = $_POST["trazeniKorisnik"];

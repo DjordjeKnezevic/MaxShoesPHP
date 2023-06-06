@@ -11,8 +11,8 @@ if (
     exit;
 }
 
-include("../includes/env.php");
-include("../includes/connect.php");
+include("../../config/env.php");
+include("../../config/connect.php");
 header('Content-Type: application/json');
 
 $korpa = $_SESSION["cart"];
