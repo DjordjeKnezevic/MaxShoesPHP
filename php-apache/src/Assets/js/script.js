@@ -301,6 +301,7 @@ window.onload = async function () {
   //* * * * * * * * * * * * * * * * * * * * * * * * * * PRODUCTS STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * *
   // else if (url == "/MaxShoes/products.php") {
   else if (pageUrl == "products") {
+    let page = 1;
     function shuffle(niz) {
       let trenutniIndex = niz.length,
         randomIndex;
@@ -319,6 +320,7 @@ window.onload = async function () {
     let getShoes = true;
     var allShoes = await ajaxCall("filter.php", "post", {
       getShoes,
+      page: 1,
     });
     allShoes = shuffle(konvertujPatike(allShoes));
 
@@ -387,6 +389,8 @@ window.onload = async function () {
     const applyFilters = document.querySelector("#apply-filters");
 
     applyFilters.addEventListener("click", function () {
+      page = 1;
+      stampajBrojStranice();
       glavniFiltar();
     });
 
@@ -517,6 +521,8 @@ window.onload = async function () {
           filterDisplay.removeChild(filterDisplay.firstChild);
         }
       }
+      page = 1;
+      stampajBrojStranice();
       stampajPatike(allShoes);
       patikeDisplay.style.height = "92%";
     }
@@ -557,6 +563,7 @@ window.onload = async function () {
       SakrijCistac(dugmadFilter);
     });
 
+    let filtriranePatike = allShoes;
     // FUNKCIJA ZA FILTRIRANJE PATIKA
     async function glavniFiltar() {
       let data = {};
@@ -585,7 +592,8 @@ window.onload = async function () {
         }
       });
       data.getShoes = true;
-      let filtriranePatike = konvertujPatike(
+      data.page = page;
+      filtriranePatike = konvertujPatike(
         await ajaxCall("filter.php", "post", data)
       );
       stampajPatike(filtriranePatike);
@@ -661,6 +669,35 @@ window.onload = async function () {
       }
     }
 
+    // STAMPANJE BROJ STRANICE
+    let prevBtn = document.querySelector("#prev");
+    let nextBtn = document.querySelector("#next");
+
+    function stampajBrojStranice(shoeList) {
+      prevBtn.textContent = `Page ${page - 1}`;
+      nextBtn.textContent = `Page ${page + 1}`;
+      if (page == 1) {
+        prevBtn.classList.add("disabled", "hidden");
+      } else {
+        prevBtn.classList.remove("disabled", "hidden");
+      }
+      if (filtriranePatike.length < 10) {
+        nextBtn.classList.add("disabled", "hidden");
+      } else {
+        nextBtn.classList.remove("disabled", "hidden");
+      }
+    }
+
+    [prevBtn, nextBtn].forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("disabled")) return;
+        page = parseInt(btn.textContent.split(" ")[1]);
+        stampajBrojStranice();
+        glavniFiltar();
+      });
+    });
+
+    stampajBrojStranice();
     // INICIJALNO POKRETANJE STAMPANJA
     const categoryUrl = urlParams.get("category");
     const brandUrl = urlParams.get("brand");

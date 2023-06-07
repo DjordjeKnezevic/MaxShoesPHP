@@ -24,6 +24,7 @@ COPY ./config ../config
 
 RUN chown -R www-data:www-data /var/www/html/Assets
 RUN chmod -R 777 /var/www/html/Assets
+RUN chmod 777 /var/www/html/data/log.txt
 
 
 EXPOSE 8080

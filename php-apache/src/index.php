@@ -2,6 +2,7 @@
 session_start();
 include("../config/env.php");
 include("../config/connect.php");
+include("../config/functions.php");
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +17,6 @@ include("./views/fixed/head.php")
     include("./views/fixed/navbar.php");
 
     switch ($_GET["page"]) {
-        case "mainpage":
-            include("views/mainpage.php");
-            break;
         case "products":
             include("views/products.php");
             break;

@@ -1,3 +1,4 @@
+<?php log_visit(); ?>
 <main id="main-page">
     <?php
 

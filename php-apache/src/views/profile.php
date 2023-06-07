@@ -1,4 +1,5 @@
 <?php
+log_visit();
 if (!isset($_SESSION["loggedUser"])) {
     header("Location: /index.php?msg=profile-unavailable");
 }

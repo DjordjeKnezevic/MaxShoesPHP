@@ -116,7 +116,7 @@ if (isset($_POST['insertShoe'])) {
             $num = (int) substr($baseName, strlen($baseName) - 2, 2);
             $num++;
             $fileNewName .= "$num" . "." . $file_ext;
-            $targetPath = "Assets/img/shoes/" . $fileNewName;
+            $targetPath = "../Assets/img/shoes/" . $fileNewName;
             move_uploaded_file($fileTmpName, $targetPath);
 
             $alt = $brand . " " . $model;
@@ -174,7 +174,7 @@ if (isset($_POST['insertShoe'])) {
             }
             $conn->commit();
             $relativePath = getParsedUrl();
-            header("Location: " . $relativePath . "?successMsg=Successfully inserted new shoe");
+            header("Location: " . $relativePath . "?page=adminpanel&successMsg=Successfully inserted new shoe");
         } catch (PDOException $e) {
             $conn->rollBack();
             http_response_code(500);
@@ -297,7 +297,7 @@ if (isset($_POST['updateShoe'])) {
                     $num = (int) substr($baseName, strlen($baseName) - 2, 2);
                     $num++;
                     $fileNewName .= "$num" . "." . $file_ext;
-                    $targetPath = "Assets/img/shoes/" . $fileNewName;
+                    $targetPath = "../Assets/img/shoes/" . $fileNewName;
                     move_uploaded_file($fileTmpName, $targetPath);
 
 
@@ -367,7 +367,7 @@ if (isset($_POST['updateShoe'])) {
                 }
                 $conn->commit();
                 $relativePath = getParsedUrl();
-                header("Location: " . $relativePath . "?successMsg=Successfully updated a shoe");
+                header("Location: " . $relativePath . "?page=adminpanel&successMsg=Successfully updated a shoe");
             } catch (PDOException $e) {
                 $conn->rollBack();
                 http_response_code(500);
@@ -391,7 +391,7 @@ if (isset($_POST['deleteShoe'])) {
             $stmt->bindParam(':idDelete', $idDelete);
             $stmt->execute();
             $relativePath = getParsedUrl();
-            header("Location: " . $relativePath . "?successMsg=Successfully deleted shoe with an id of $idDelete");
+            header("Location: " . $relativePath . "?page=adminpanel&successMsg=Successfully deleted shoe with an id of $idDelete");
         } catch (PDOException $e) {
             $conn->rollBack();
             http_response_code(500);

@@ -15,6 +15,9 @@ include("../../config/connect.php");
 
 $query = BASEQUERY;
 
+$page_number = isset($_POST['page']) ? $_POST['page'] : 1;
+$offset = ($page_number - 1) * 10;
+
 if (
     isset($_POST['Category']) || isset($_POST['Brand']) || isset($_POST['FreeShipping']) || isset($_POST['Keyword'])
     || isset($_POST['OnDiscount']) || isset($_POST['donjaCena']) || isset($_POST['gornjaCena']) || isset($_POST['Model']) || isset($_POST['ids'])
@@ -76,6 +79,7 @@ if (isset($_POST['SortBy'])) {
 }
 
 try {
+    if (isset($_POST["page"]) && (int)$_POST["page"] > 0) $query .= " LIMIT $offset, 10";
     $rez = $conn->query($query)->fetchAll();
     http_response_code(200);
     echo (json_encode($rez));
@@ -83,5 +87,3 @@ try {
     http_response_code(500);
     echo $e->getMessage();
 }
-
-?>
