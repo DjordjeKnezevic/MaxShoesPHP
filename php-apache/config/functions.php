@@ -11,3 +11,4 @@ function log_visit()
     $log_entry = "$user_ip::$username::$page::$time" . PHP_EOL;
     file_put_contents('data/log.txt', $log_entry, FILE_APPEND);
 }
+

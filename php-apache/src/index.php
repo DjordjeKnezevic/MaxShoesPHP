@@ -9,14 +9,15 @@ include("../config/functions.php");
 <html lang="en">
 
 <?php
-include("./views/fixed/head.php")
+include("./views/fixed/head.php");
 ?>
 
 <body>
     <?php
     include("./views/fixed/navbar.php");
 
-    switch ($_GET["page"]) {
+    $page = $_GET["page"] ?? "index";
+    switch ($page) {
         case "products":
             include("views/products.php");
             break;

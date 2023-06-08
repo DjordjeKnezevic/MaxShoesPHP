@@ -922,3 +922,10 @@ span.ui-slider-handle.ui-state-default.ui-corner-all:last-of-type {
 #update-form {
   min-width: 70% !important;
 }
+.chart-bar {
+  background-color: #222e50;
+  border: 1px solid #ccc;
+}
+.chart {
+  height: 300px;
+}

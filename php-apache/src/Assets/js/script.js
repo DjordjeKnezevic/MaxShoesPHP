@@ -280,7 +280,7 @@ window.onload = async function () {
   const pageUrl = urlParams.get("page");
 
   //* * * * * * * * * * * * * * * * * * * * * * * * * * INDEX STRANICA * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  if (pageUrl == "mainpage" || !pageUrl) {
+  if (!pageUrl) {
     // FADEOUT ANIMACIJA WELCOME EKRANA
     let welcomeScreen = document.getElementById("welcome-screen");
     let bgSlike = welcomeScreen.getElementsByTagName("img");
@@ -522,6 +522,7 @@ window.onload = async function () {
         }
       }
       page = 1;
+      filtriranePatike = allShoes;
       stampajBrojStranice();
       stampajPatike(allShoes);
       patikeDisplay.style.height = "92%";
@@ -596,6 +597,7 @@ window.onload = async function () {
       filtriranePatike = konvertujPatike(
         await ajaxCall("filter.php", "post", data)
       );
+      stampajBrojStranice();
       stampajPatike(filtriranePatike);
     }
 
@@ -673,7 +675,9 @@ window.onload = async function () {
     let prevBtn = document.querySelector("#prev");
     let nextBtn = document.querySelector("#next");
 
-    function stampajBrojStranice(shoeList) {
+    function stampajBrojStranice() {
+      console.log(page);
+      console.log(filtriranePatike.length);
       prevBtn.textContent = `Page ${page - 1}`;
       nextBtn.textContent = `Page ${page + 1}`;
       if (page == 1) {
@@ -692,7 +696,6 @@ window.onload = async function () {
       btn.addEventListener("click", () => {
         if (btn.classList.contains("disabled")) return;
         page = parseInt(btn.textContent.split(" ")[1]);
-        stampajBrojStranice();
         glavniFiltar();
       });
     });
@@ -1142,6 +1145,17 @@ window.onload = async function () {
     shoeChoiceDdDelete.addEventListener("change", function () {
       displayShoe(shoeChoiceDdDelete, shoeDeleteDisplay, shoeIdInputDelete);
     });
+
+    // DOHVATANJE STATISTIKE O POSETAMA I POSTAVLJANJE VELICINE DIV-A NA OSNOVU PODATAKA
+    let visitsPerPage = await ajaxCall("getVisitsPerPage.php", "GET");
+    document.querySelector("#chart-index").style.height =
+      300 * visitsPerPage.index + "px";
+    document.querySelector("#chart-products").style.height =
+      300 * visitsPerPage.products + "px";
+    document.querySelector("#chart-cart").style.height =
+      300 * visitsPerPage.cart + "px";
+    document.querySelector("#chart-profile").style.height =
+      300 * visitsPerPage.profile + "px";
   }
 };
 

@@ -24,7 +24,7 @@ $queryShoes = $conn->query($queryShoes)->fetchAll();
 ?>
 
 
-<main id="admin-main" class="d-flex justify-content-center">
+<main id="admin-main" class="d-flex align-items-center flex-column">
     <?php
 
     if (isset($_GET["errors"])) {
@@ -219,6 +219,46 @@ $queryShoes = $conn->query($queryShoes)->fetchAll();
                         <img src="Assets/img/loading.gif" alt="loading-img" class="img-fluid mx-2 loading-img">
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="container my-5 border rounded p-3">
+        <h2 class="text-center">Visits Chart</h2>
+        <div class="row">
+            <div class="col-1 d-flex flex-column border-end justify-content-between">
+                <div>100%</div>
+                <div>75%</div>
+                <div>50%</div>
+                <div>25%</div>
+                <div>0%</div>
+            </div>
+            <div class="col chart d-flex flex-column-reverse">
+                <div class="row chart-area h-100">
+                    <div class="col d-flex flex-column-reverse">
+                        <div class="chart-bar" id="chart-index"></div>
+                    </div>
+                    <div class="col d-flex flex-column-reverse">
+                        <div class="chart-bar chart-products" id="chart-products"></div>
+                    </div>
+                    <div class="col d-flex flex-column-reverse">
+                        <div class="chart-bar chart-cart" id="chart-cart"></div>
+                    </div>
+                    <div class="col d-flex flex-column-reverse">
+                        <div class="chart-bar chart-profile" id="chart-profile"></div>
+                    </div>
+                    <!-- Add more columns for other pages -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+                <div class="row">
+                    <div class="col text-center">Index</div>
+                    <div class="col text-center">Products</div>
+                    <div class="col text-center">Cart</div>
+                    <div class="col text-center">Profile</div>
+                </div>
             </div>
         </div>
     </div>
