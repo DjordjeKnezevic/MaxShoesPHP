@@ -42,7 +42,7 @@ $navigacija = $conn->query($query)->fetchAll();
                 </svg>
                 <?php
 
-                include("../models/loadcart.php");
+                include("models/loadcart.php");
 
                 ?>
             </a>

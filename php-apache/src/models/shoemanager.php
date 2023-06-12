@@ -12,6 +12,7 @@ if (
 
 include("../../config/env.php");
 include("../../config/connect.php");
+include("../../config/functions.php");
 
 function getParsedUrl()
 {
@@ -111,13 +112,7 @@ if (isset($_POST['insertShoe'])) {
         try {
             $query = "SELECT src FROM slika WHERE id = (SELECT MAX(id) FROM slika)";
             $slikaIme = $conn->query($query)->fetch()->src;
-            $baseName = explode(".", $slikaIme)[0];
-            $fileNewName = substr($baseName, strlen($baseName) - 6, 4);
-            $num = (int) substr($baseName, strlen($baseName) - 2, 2);
-            $num++;
-            $fileNewName .= "$num" . "." . $file_ext;
-            $targetPath = "../Assets/img/shoes/" . $fileNewName;
-            move_uploaded_file($fileTmpName, $targetPath);
+            $targetPath = uploadAndRescaleImage($fileTmpName, $slikaIme, $file_ext);
 
             $alt = $brand . " " . $model;
             $insertIntoSlika = "INSERT INTO `slika`(`src`, `alt`) VALUES (:src,:alt)";
@@ -292,14 +287,7 @@ if (isset($_POST['updateShoe'])) {
                 if (isset($file)) {
                     $query = "SELECT src FROM slika WHERE id = (SELECT MAX(id) FROM slika)";
                     $slikaIme = $conn->query($query)->fetch()->src;
-                    $baseName = explode(".", $slikaIme)[0];
-                    $fileNewName = substr($baseName, strlen($baseName) - 6, 4);
-                    $num = (int) substr($baseName, strlen($baseName) - 2, 2);
-                    $num++;
-                    $fileNewName .= "$num" . "." . $file_ext;
-                    $targetPath = "../Assets/img/shoes/" . $fileNewName;
-                    move_uploaded_file($fileTmpName, $targetPath);
-
+                    $targetPath = uploadAndRescaleImage($fileTmpName, $slikaIme, $file_ext);
 
                     $alt = $fileNewName;
                     $insertIntoSlika = "INSERT INTO `slika`(`src`, `alt`) VALUES (:src,:alt)";

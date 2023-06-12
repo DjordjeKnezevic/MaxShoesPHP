@@ -127,7 +127,7 @@ $queryShoes = $conn->query($queryShoes)->fetchAll();
                         <div class="d-flex justify-content-between"><label for="file-insert">Image (1 file per
                                 shoe, supported formats JPG, PNG, JPEG):</label><strong class="required">Required!</strong>
                         </div>
-                        <input type="file" name="file-insert" class="form-control-file my-1" id="file-insert">
+                        <input type="file" name="file-insert" class="form-control-file my-1 d-flex flex-wrap" id="file-insert">
                     </div>
                     <input type="submit" name="insertShoe" value="Insert Shoe" id="insertShoe" class="btn btn-primary form-control my-1">
                     <div class="hide alert alert-info mt-3 d-flex justify-content-between align-items-center processing" id="insertProcess">
